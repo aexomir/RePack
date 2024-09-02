@@ -3,20 +3,35 @@ import {StyleSheet, Text, View} from 'react-native';
 
 import ModuleResolver from './src/ModuleResolver';
 
-const MyChunk = React.lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(import('./src/MyChunk')), 10000);
-  });
-});
+const Student = React.lazy(
+  () => import(/* webpackChunkName: "student" */ './src/Student'),
+);
+
+const Teacher = React.lazy(
+  () => import(/* webpackChunkName: "teacher" */ './src/Teacher'),
+);
+
+const user: User = {
+  name: 'mammadi',
+  role: 'teacher',
+};
 
 function App() {
   ModuleResolver.init();
 
+  const Side = React.useMemo(
+    () =>
+      user.role === 'student' ? (
+        <Student user={user} />
+      ) : (
+        <Teacher user={user} />
+      ),
+    [],
+  );
+
   return (
     <View style={styles.container}>
-      <React.Suspense fallback={<Text>Loading...</Text>}>
-        <MyChunk />
-      </React.Suspense>
+      <React.Suspense fallback={<Text>Loading...</Text>}>{Side}</React.Suspense>
     </View>
   );
 }

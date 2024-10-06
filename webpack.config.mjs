@@ -3,6 +3,8 @@ import path from 'node:path';
 import TerserPlugin from 'terser-webpack-plugin';
 import * as Repack from '@callstack/repack';
 
+import appConfig from './app.json';
+
 const dirname = Repack.getDirname(import.meta.url);
 const {resolve} = createRequire(import.meta.url);
 
@@ -232,6 +234,17 @@ export default env => {
           sourceMapFilename,
           assetsPath,
         },
+        extraChunks: [
+          {
+            include: appConfig.localChunks,
+            type: 'local',
+          },
+          {
+            exclude: appConfig.localChunks,
+            type: 'remote',
+            outputPath: path.join('build/output', platform, 'remote'),
+          },
+        ],
       }),
     ],
   };

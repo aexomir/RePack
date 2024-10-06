@@ -1,4 +1,5 @@
 {
   "name": "RePack",
-  "displayName": "RePack"
+  "displayName": "RePack",
+  "localChunks": ["teacher"]
 }

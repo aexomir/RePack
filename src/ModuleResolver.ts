@@ -1,6 +1,8 @@
 import {ScriptManager, Script} from '@callstack/repack/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {localChunks} from '../app.json';
+
 class ModuleResolver {
   public init = () => {
     try {
@@ -11,6 +13,12 @@ class ModuleResolver {
           return {
             url: Script.getDevServerURL(scriptId),
             cache: false,
+          };
+        }
+
+        if (localChunks.includes(scriptId)) {
+          return {
+            url: Script.getFileSystemURL(scriptId),
           };
         }
 

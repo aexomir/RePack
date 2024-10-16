@@ -1,7 +1,7 @@
 import {ScriptManager, Script} from '@callstack/repack/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {localChunks} from '../app.json';
+import {localChunks} from '../app.json' with {type: 'json'};
 
 class ModuleResolver {
   public init = () => {
